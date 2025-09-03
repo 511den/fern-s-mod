@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моды - История изменений и скачивание</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #1a1a2e;
+            color: #e6e6e6;
+            line-height: 1.6;
+            font-size: 0.9rem; /* Уменьшен базовый размер шрифта */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 15px; /* Уменьшен padding */
+        }
+
+        header {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            padding: 15px 0; /* Уменьшен padding */
+            text-align: center;
+            border-radius: 8px; /* Уменьшен радиус */
+            margin-bottom: 20px; /* Уменьшен отступ */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); /* Уменьшена тень */
+        }
+
+        header h1 {
+            font-size: 1.8rem; /* Уменьшен размер шрифта */
+            margin-bottom: 8px; /* Уменьшен отступ */
+            color: #4cc9f0;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5); /* Уменьшена тень */
+        }
+
+        header p {
+            font-size: 1rem; /* Уменьшен размер шрифта */
+            max-width: 800px;
+            margin: 0 auto;
+            color: #a1c6ea;
+        }
+
+        .folders-container {
+            margin-bottom: 20px; /* Уменьшен отступ */
+        }
+
+        .folder-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px; /* Уменьшен отступ */
+            margin-bottom: 15px; /* Уменьшен отступ */
+        }
+
+        .folder-tab {
+            background: #0f3460;
+            padding: 8px 15px; /* Уменьшен padding */
+            border-radius: 5px; /* Уменьшен радиус */
+            cursor: pointer;
+            transition: background 0.3s;
+            font-size: 0.9rem; /* Уменьшен размер шрифта */
+        }
+
+        .folder-tab.active {
+            background: #4cc9f0;
+            color: #0f3460;
+            font-weight: bold;
+        }
+
+        .folder-tab:hover:not(.active) {
+            background: #16213e;
+        }
+
+        .mods-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); /* Уменьшена минимальная ширина */
+            gap: 15px; /* Уменьшен отступ */
+            margin-bottom: 20px; /* Уменьшен отступ */
+        }
+
+        .mod-card {
+            background: linear-gradient(135deg, #16213e 0%, #0f3460 100%);
+            border-radius: 8px; /* Уменьшен радиус */
+            padding: 15px; /* Уменьшен padding */
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4); /* Уменьшена тень */
+            transition: transform 0.3s;
+        }
+
+        .mod-card:hover {
+            transform: translateY(-3px); /* Уменьшено смещение */
+        }
+
+        .mod-card h3 {
+            color: #4cc9f0;
+            margin-bottom: 10px; /* Уменьшен отступ */
+            padding-bottom: 8px; /* Уменьшен отступ */
+            border-bottom: 1px solid #4cc9f0;
+            font-size: 1.1rem; /* Уменьшен размер шрифта */
+        }
+
+        .mod-meta {
+            color: #a1c6ea;
+            margin-bottom: 10px; /* Уменьшен отступ */
+            font-size: 0.85rem; /* Уменьшен размер шрифта */
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: #4cc9f0;
+            color: #0f3460;
+            padding: 8px 12px; /* Уменьшен padding */
+            text-decoration: none;
+            border-radius: 4px; /* Уменьшен радиус */
+            font-weight: bold;
+            margin-top: 8px; /* Уменьшен отступ */
+            transition: background 0.3s;
+            font-size: 0.85rem; /* Уменьшен размер шрифта */
+        }
+
+        .download-btn:hover {
+            background: #2b9fc7;
+        }
+
+        .changelog {
+            margin-top: 10px; /* Уменьшен отступ */
+        }
+
+        .changelog h4 {
+            color: #a1c6ea;
+            margin-bottom: 8px; /* Уменьшен отступ */
+            font-size: 0.95rem; /* Уменьшен размер шрифта */
+        }
+
+        .changelog ul {
+            list-style-type: none;
+        }
+
+        .changelog li {
+            margin-bottom: 6px; /* Уменьшен отступ */
+            padding-left: 16px; /* Уменьшен отступ */
+            position: relative;
+            font-size: 0.85rem; /* Уменьшен размер шрифта */
+        }
+
+        .changelog li:before {
+            content: "•";
+            color: #4cc9f0;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px 0; /* Уменьшен padding */
+            margin-top: 20px; /* Уменьшен отступ */
+            color: #a1c6ea;
+            border-top: 1px solid #0f3460;
+            font-size: 0.9rem; /* Уменьшен размер шрифта */
+        }
+
+        @media (max-width: 768px) {
+            .mods-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .folder-tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>fern's mod</h1>
+            <p>Здесь вы можете скачать различные версии модов и посмотреть историю изменений</p>
+        </header>
+
+        <div class="folders-container">
+            <div class="folder-tabs" id="folderTabs">
+                <!-- Вкладки папок будут отображаться здесь -->
+            </div>
+        </div>
+
+        <div class="mods-container" id="modsContainer">
+            <!-- Моды будут отображаться здесь -->
+        </div>
+
+        <footer>
+            <p>© 2025 Все права защищены 
+telegram: @den511den</p>
+        </footer>
+    </div>
+
+    <script>
+        // Данные о модах с группировкой по папкам
+        const modsData = {
+            folders: [
+                {
+                    id: "main",
+                    name: "Основные версии",
+                    mods: [
+                        {
+                            version: "fern-1.0.1",
+                            releaseDate: "24.08.2025",
+                            file: "https://github.com/511den/fern-s-mod/raw/main/mods/fern-1.0.1.jar",
+                            changes: [
+                                "Добавлен предмет: Конопля",
+                                "Добавлен предмет: Листья конопли",
+                                "Добавлен предмет: Сушёная конопля"
+                            ]
+                        },
+                        {
+                            version: "fern-baff",
+                            releaseDate: "30.08.2025",
+                            file: "https://github.com/511den/fern-s-mod/raw/main/mods/fern_baff-1.0.0.jar",
+                            changes: [
+                                "Эксклюзивная версия!",
+                                "Убраны ошибки",
+                                "Убрано авторское право с серверов"
+                            ]
+                        },
+                        {
+                            version: "fern-1.0.2",
+                            releaseDate: "25.08.2025",
+                            file: "https://github.com/511den/fern-s-mod/raw/main/mods/fern-1.0.2.jar",
+                            changes: [
+                                "Убраны ошибки"
+                            ]
+                        },
+                        {
+                            version: "fern-1.0.3",
+                            releaseDate: "28.08.2025",
+                            file: "https://github.com/511den/fern-s-mod/raw/main/mods/fern-1.0.3.jar",
+                            changes: [
+                                "Добавлен предмет: Сигара, и её крафт",
+                                "Добавлен предмет: удобрение"
+                            ]
+                        },
+                        {
+                            version: "fern-1.0.4",
+                            releaseDate: "примерная дата выхода: 04.09.2025",
+                            file: "https://github.com/511den/fern-s-mod/raw/main/mods/fern-1.0.4.jar",
+                            changes: [
+                                "Добавлена новая вкладка в творческом режиме: test",
+                                "Добавлен предмет: Зип пакет",
+                                "Добавлен предмет: Зип пакет с подозрительным белым порошком",
+                                "Добавлен предмет: Зип пакет с сушённой коноплёй И её крафт",
+                                "Добавлен предмет: Изолента",
+                                "Добавлен предмет: Пустой шприц",
+                                "Добавлен предмет: Подозрительный шприц"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    id: "ModName",
+                    name: "тут мог бы быть ваш мод контакт снизу",
+                    mods: [
+
+                    ]
+                },
+                {
+                    id: "Modqname",
+                    name: "тут мог бы быть ваш мод контакт снизу",
+                    mods: [
+                        // Здесь могут быть бета-версии модов
+                    ]
+                }
+            ]
+        };
+
+        // Текущая активная папка
+        let activeFolderId = modsData.folders[0].id;
+
+        // Функция для отображения вкладок папок
+        function displayFolderTabs() {
+            const folderTabsContainer = document.getElementById('folderTabs');
+            
+            let html = '';
+            modsData.folders.forEach(folder => {
+                html += `
+                    <div class="folder-tab ${folder.id === activeFolderId ? 'active' : ''}" 
+                         data-folder="${folder.id}">
+                        ${folder.name}
+                    </div>
+                `;
+            });
+            
+            folderTabsContainer.innerHTML = html;
+            
+            // Добавляем обработчики событий для вкладок
+            document.querySelectorAll('.folder-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    activeFolderId = this.getAttribute('data-folder');
+                    displayFolderTabs();
+                    displayMods();
+                });
+            });
+        }
+
+        // Функция для отображения модов в активной папке
+        function displayMods() {
+            const modsContainer = document.getElementById('modsContainer');
+            const activeFolder = modsData.folders.find(folder => folder.id === activeFolderId);
+            
+            if (!activeFolder || activeFolder.mods.length === 0) {
+                modsContainer.innerHTML = '<div class="mod-card"><h3>Моды отсутствуют</h3><p>В этой папке пока нет модов</p></div>';
+                return;
+            }
+            
+            // Сортируем моды по версии (новые сверху)
+            activeFolder.mods.sort((a, b) => compareVersions(b.version, a.version));
+            
+            let html = '';
+            activeFolder.mods.forEach(mod => {
+                html += `
+                    <div class="mod-card">
+                        <h3>Версия ${mod.version}</h3>
+                        <div class="mod-meta">
+                            <strong>Дата выпуска:</strong> ${mod.releaseDate}
+                        </div>
+                        ${mod.file ? `<a href="${mod.file}" class="download-btn" download>Скачать мод</a>` : ''}
+                        <div class="changelog">
+                            <h4>Изменения:</h4>
+                            <ul>
+                                ${mod.changes.map(change => `<li>${change}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            modsContainer.innerHTML = html;
+        }
+
+        // Функция для сравнения версий
+        function compareVersions(a, b) {
+            // Извлекаем числовые части версий
+            const aMatch = a.match(/(\d+)\.(\d+)\.(\d+)/);
+            const bMatch = b.match(/(\d+)\.(\d+)\.(\d+)/);
+            
+            if (aMatch && bMatch) {
+                // Сравниваем числовые версии
+                for (let i = 1; i <= 3; i++) {
+                    const aPart = parseInt(aMatch[i]);
+                    const bPart = parseInt(bMatch[i]);
+                    
+                    if (aPart !== bPart) {
+                        return aPart > bPart ? 1 : -1;
+                    }
+                }
+                return 0;
+            }
+            
+            // Если версии не соответствуют формату, используем лексикографическое сравнение
+            return a.localeCompare(b);
+        }
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            displayFolderTabs();
+            displayMods();
+        });
+    </script>
+</body>
+</html>
